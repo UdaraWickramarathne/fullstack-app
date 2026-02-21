@@ -41,7 +41,7 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div key={`${item.product._id}-${item.size}-${item.color}`} className="cart-item card">
                 <img 
-                  src={item.product.images?.[0] || 'https://via.placeholder.com/150/E8E2D6/1C1C1C?text=Product'} 
+                  src={item.product.images?.[0] || 'https://placehold.co/150/E8E2D6/1C1C1C?text=Product'} 
                   alt={item.product.name} 
                   className="cart-item-image"
                 />

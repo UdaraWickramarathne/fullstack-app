@@ -140,7 +140,7 @@ const Products = () => {
                   <Link key={product._id} to={`/products/${product._id}`} className="product-card card">
                     <div className="product-image">
                       <img 
-                        src={product.images?.[0] || 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Product'} 
+                        src={product.images?.[0] || 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Product'} 
                         alt={product.name} 
                       />
                       {product.isNewArrival && <span className="badge badge-new">New</span>}

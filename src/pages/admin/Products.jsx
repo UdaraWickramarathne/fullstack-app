@@ -15,7 +15,7 @@ const Products = () => {
     gender: 'Unisex',
     sizes: ['S', 'M', 'L'],
     colors: ['Black', 'White'],
-    images: ['https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Product'],
+    images: ['https://placehold.co/400x500/E8E2D6/1C1C1C?text=Product'],
     stock: 0,
     isFeatured: false,
     isNewArrival: false
@@ -109,7 +109,7 @@ const Products = () => {
       gender: 'Unisex',
       sizes: ['S', 'M', 'L'],
       colors: ['Black', 'White'],
-      images: ['https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Product'],
+      images: ['https://placehold.co/400x500/E8E2D6/1C1C1C?text=Product'],
       stock: 0,
       isFeatured: false,
       isNewArrival: false
@@ -138,7 +138,7 @@ const Products = () => {
           {products.map(product => (
             <div key={product._id} className="product-card card">
               <img 
-                src={product.images?.[0] || 'https://via.placeholder.com/300/E8E2D6/1C1C1C?text=Product'} 
+                src={product.images?.[0] || 'https://placehold.co/300/E8E2D6/1C1C1C?text=Product'} 
                 alt={product.name} 
               />
               <div className="product-details">

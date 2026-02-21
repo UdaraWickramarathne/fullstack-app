@@ -65,7 +65,7 @@ const Orders = () => {
                   {order.orderItems.map((item, index) => (
                     <div key={index} className="order-item">
                       <img 
-                        src={item.image || 'https://via.placeholder.com/80/E8E2D6/1C1C1C?text=Product'} 
+                        src={item.image || 'https://placehold.co/80/E8E2D6/1C1C1C?text=Product'} 
                         alt={item.name} 
                       />
                       <div className="item-details">

@@ -28,10 +28,10 @@ const Home = () => {
   };
 
   const categories = [
-    { name: 'Casual Wear', image: 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Casual+Wear' },
-    { name: 'Streetwear', image: 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Streetwear' },
-    { name: 'Essentials', image: 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Essentials' },
-    { name: 'Limited Edition', image: 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Limited+Edition' }
+    { name: 'Casual Wear', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Casual+Wear' },
+    { name: 'Streetwear', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Streetwear' },
+    { name: 'Essentials', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Essentials' },
+    { name: 'Limited Edition', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Limited+Edition' }
   ];
 
   return (
@@ -47,7 +47,7 @@ const Home = () => {
           <Link to="/products" className="btn btn-primary">Shop the Collection</Link>
         </div>
         <div className="hero-image">
-          <img src="https://via.placeholder.com/800x600/E8E2D6/1C1C1C?text=Sustainable+Fashion" alt="Sustainable Fashion" />
+          <img src="https://placehold.co/800x600/E8E2D6/1C1C1C?text=Sustainable+Fashion" alt="Sustainable Fashion" />
         </div>
       </section>
 
@@ -88,7 +88,7 @@ const Home = () => {
                 <Link key={product._id} to={`/products/${product._id}`} className="product-card card">
                   <div className="product-image">
                     <img 
-                      src={product.images?.[0] || 'https://via.placeholder.com/400x500/E8E2D6/1C1C1C?text=Product'} 
+                      src={product.images?.[0] || 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Product'} 
                       alt={product.name} 
                     />
                   </div>
@@ -139,7 +139,7 @@ const Home = () => {
               </div>
             </div>
             <div className="sustainability-image">
-              <img src="https://via.placeholder.com/600x700/E8E2D6/1C1C1C?text=Sustainability" alt="Sustainability" />
+              <img src="https://placehold.co/600x700/E8E2D6/1C1C1C?text=Sustainability" alt="Sustainability" />
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@ const Home = () => {
               <div key={review._id} className="review-card card">
                 <div className="review-header">
                   <img 
-                    src={review.image || 'https://via.placeholder.com/80/E8E2D6/1C1C1C?text=👤'} 
+                    src={review.image || 'https://placehold.co/80/E8E2D6/1C1C1C?text=👤'} 
                     alt={review.name} 
                     className="review-avatar"
                   />

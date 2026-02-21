@@ -71,11 +71,6 @@ const Login = () => {
           Don't have an account? <Link to="/register">Create one</Link>
         </p>
 
-        <div className="admin-demo">
-          <p><strong>Demo Accounts:</strong></p>
-          <p>Admin: Create account and update role in database</p>
-          <p>Customer: Register normally</p>
-        </div>
       </div>
     </div>
   );

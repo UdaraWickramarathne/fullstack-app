@@ -191,7 +191,7 @@ const Checkout = () => {
               {cartItems.map(item => (
                 <div key={`${item.product._id}-${item.size}-${item.color}`} className="summary-item">
                   <img 
-                    src={item.product.images?.[0] || 'https://via.placeholder.com/80/E8E2D6/1C1C1C?text=Product'} 
+                    src={item.product.images?.[0] || 'https://placehold.co/80/E8E2D6/1C1C1C?text=Product'} 
                     alt={item.product.name} 
                   />
                   <div className="item-details">

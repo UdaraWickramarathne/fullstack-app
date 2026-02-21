@@ -55,7 +55,7 @@ const ProductDetail = () => {
           <div className="product-images">
             <div className="main-image">
               <img 
-                src={product.images?.[0] || 'https://via.placeholder.com/600x700/E8E2D6/1C1C1C?text=Product'} 
+                src={product.images?.[0] || 'https://placehold.co/600x700/E8E2D6/1C1C1C?text=Product'} 
                 alt={product.name} 
               />
             </div>
