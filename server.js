@@ -6,6 +6,7 @@ import YAML from 'yamljs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import connectDatabase from './config/database.js';
+import createAdminUser from './scripts/seedAdmin.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
@@ -22,8 +23,10 @@ const swaggerDocument = YAML.load(join(__dirname, 'openapi.yaml'));
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDatabase();
+// Connect to database and seed admin
+connectDatabase().then(() => {
+  createAdminUser();
+});
 
 const app = express();
 
