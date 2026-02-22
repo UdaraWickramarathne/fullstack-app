@@ -1,5 +1,6 @@
 import express from 'express';
 import Order from '../models/Order.js';
+import Product from '../models/Product.js';
 import { protect, admin } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -23,6 +24,31 @@ router.post('/', protect, async (req, res) => {
     if (orderItems && orderItems.length === 0) {
       console.log(`[${new Date().toISOString()}] POST /api/orders - No order items provided`);
       return res.status(400).json({ message: 'No order items' });
+    }
+
+    // Check stock availability for all products
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product);
+      if (!product) {
+        console.log(`[${new Date().toISOString()}] POST /api/orders - Product not found: ${item.product}`);
+        return res.status(404).json({ message: `Product not found: ${item.name}` });
+      }
+      if (product.stock < item.quantity) {
+        console.log(`[${new Date().toISOString()}] POST /api/orders - Insufficient stock for product: ${item.name} (Available: ${product.stock}, Requested: ${item.quantity})`);
+        return res.status(400).json({ 
+          message: `Insufficient stock for ${item.name}. Only ${product.stock} available.` 
+        });
+      }
+    }
+
+    // Reduce stock for each product
+    for (const item of orderItems) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { stock: -item.quantity } },
+        { new: true }
+      );
+      console.log(`[${new Date().toISOString()}] POST /api/orders - Reduced stock for product: ${item.product} by ${item.quantity}`);
     }
 
     const order = await Order.create({
@@ -121,7 +147,21 @@ router.put('/:id/status', protect, admin, async (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
 
+    const previousStatus = order.orderStatus;
     order.orderStatus = req.body.status;
+
+    // If order is being cancelled, restore stock
+    if (req.body.status === 'Cancelled' && previousStatus !== 'Cancelled') {
+      for (const item of order.orderItems) {
+        await Product.findByIdAndUpdate(
+          item.product,
+          { $inc: { stock: item.quantity } },
+          { new: true }
+        );
+        console.log(`[${new Date().toISOString()}] PUT /api/orders/${req.params.id}/status - Restored stock for product: ${item.product} by ${item.quantity}`);
+      }
+      console.log(`[${new Date().toISOString()}] PUT /api/orders/${req.params.id}/status - Order cancelled, stock restored`);
+    }
 
     if (req.body.status === 'Delivered' && !order.deliveredAt) {
       order.deliveredAt = Date.now();
