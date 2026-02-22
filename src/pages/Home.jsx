@@ -28,10 +28,10 @@ const Home = () => {
   };
 
   const categories = [
-    { name: 'Casual Wear', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Casual+Wear' },
-    { name: 'Streetwear', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Streetwear' },
-    { name: 'Essentials', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Essentials' },
-    { name: 'Limited Edition', image: 'https://placehold.co/400x500/E8E2D6/1C1C1C?text=Limited+Edition' }
+    { name: 'Casual Wear', image: 'https://i.pinimg.com/474x/5c/b9/5f/5cb95fa600d242243104443217d2ad83.jpg' },
+    { name: 'Streetwear', image: 'https://files.cdn.printful.com/o/upload/bfl-image/86/19459_l_a-woman-posing-for-a-picture' },
+    { name: 'Essentials', image: 'https://cdn-images.farfetch-contents.com/27/35/86/22/27358622_57322612_1000.jpg' },
+    { name: 'Limited Edition', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVFOTBYIoXbv6TZtqB-qVM6ociADBDI4uORA&s' }
   ];
 
   return (
@@ -47,7 +47,7 @@ const Home = () => {
           <Link to="/products" className="btn btn-primary">Shop the Collection</Link>
         </div>
         <div className="hero-image">
-          <img src="https://placehold.co/800x600/E8E2D6/1C1C1C?text=Sustainable+Fashion" alt="Sustainable Fashion" />
+          <img src="https://img.freepik.com/free-photo/empty-boutique-shopping-centre_482257-78792.jpg?semt=ais_user_personalization&w=740&q=80" alt="Sustainable Fashion" />
         </div>
       </section>
 
@@ -139,7 +139,7 @@ const Home = () => {
               </div>
             </div>
             <div className="sustainability-image">
-              <img src="https://placehold.co/600x700/E8E2D6/1C1C1C?text=Sustainability" alt="Sustainability" />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrOTb2k3BIMdUDVR73obbqY-R1f8S4jUUrTA&s" alt="Sustainability" />
             </div>
           </div>
         </div>
