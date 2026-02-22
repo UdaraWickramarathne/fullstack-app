@@ -72,10 +72,61 @@ console.log(`[${new Date().toISOString()}] All routes registered successfully`);
 // Basic route
 app.get('/', (req, res) => {
   console.log(`[${new Date().toISOString()}] GET / - Root endpoint accessed`);
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
   res.json({ 
     message: 'Welcome to Velora Wear API',
-    documentation: `http://localhost:${process.env.PORT || 5000}/api-docs`,
-    version: '1.0.0'
+    documentation: `${baseUrl}/api-docs`,
+    version: '1.0.0',
+    endpoints: {
+      auth: `${baseUrl}/api/auth`,
+      products: `${baseUrl}/api/products`,
+      orders: `${baseUrl}/api/orders`,
+      reviews: `${baseUrl}/api/reviews`,
+      admin: `${baseUrl}/api/admin`
+    }
+  });
+});
+
+// API info route
+app.get('/api', (req, res) => {
+  console.log(`[${new Date().toISOString()}] GET /api - API info endpoint accessed`);
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  res.json({ 
+    message: 'Velora Wear API',
+    version: '1.0.0',
+    documentation: `${baseUrl}/api-docs`,
+    endpoints: {
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login',
+        me: 'GET /api/auth/me',
+        profile: 'PUT /api/auth/profile'
+      },
+      products: {
+        list: 'GET /api/products',
+        get: 'GET /api/products/:id',
+        create: 'POST /api/products (Admin)',
+        update: 'PUT /api/products/:id (Admin)',
+        delete: 'DELETE /api/products/:id (Admin)'
+      },
+      orders: {
+        create: 'POST /api/orders',
+        myOrders: 'GET /api/orders/myorders',
+        get: 'GET /api/orders/:id',
+        list: 'GET /api/orders (Admin)',
+        updateStatus: 'PUT /api/orders/:id/status (Admin)',
+        updatePayment: 'PUT /api/orders/:id/payment (Admin)'
+      },
+      reviews: {
+        list: 'GET /api/reviews',
+        create: 'POST /api/reviews'
+      },
+      admin: {
+        stats: 'GET /api/admin/stats (Admin)',
+        users: 'GET /api/admin/users (Admin)',
+        deleteUser: 'DELETE /api/admin/users/:id (Admin)'
+      }
+    }
   });
 });
 
