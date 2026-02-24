@@ -21,6 +21,9 @@ RUN npm run build
 # Stage 2: Serve with nginx
 FROM nginx:alpine
 
+# Set default environment variables (can be overridden at runtime)
+ENV API_URL=http://localhost:5000/api
+
 # Copy custom nginx configuration
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
