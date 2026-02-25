@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: velora-ingress
+  namespace: velora-wear
+  annotations:
+    # Use traefik ingress controller (default in Rancher Desktop)
+    # If you prefer nginx, change to: kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "traefik"
+    # Enable CORS for API calls
+    traefik.ingress.kubernetes.io/router.middlewares: velora-wear-cors@kubernetescrd
+spec:
+  rules:
+  - host: velora.local
+    http:
+      paths:
+      # API routes - backend
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: velora-backend-service
+            port:
+              number: 5000
+      # API documentation
+      - path: /api-docs
+        pathType: Prefix
+        backend:
+          service:
+            name: velora-backend-service
+            port:
+              number: 5000
+      # Frontend - catch all other routes
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: velora-frontend-service
+            port:
+              number: 80
+---
+# CORS Middleware for Traefik
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cors
+  namespace: velora-wear
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "OPTIONS"
+    accessControlAllowHeaders:
+      - "*"
+    accessControlAllowOriginList:
+      - "*"
+    accessControlMaxAge: 100
+    addVaryHeader: true
