@@ -8,7 +8,7 @@ metadata:
     # If you prefer nginx, change to: kubernetes.io/ingress.class: "nginx"
     kubernetes.io/ingress.class: "traefik"
     # Enable CORS for API calls
-    traefik.ingress.kubernetes.io/router.middlewares: velora-wear-cors@kubernetescrd
+    # traefik.ingress.kubernetes.io/router.middlewares: velora-wear-cors@kubernetescrd
 spec:
   rules:
   - host: velora.local

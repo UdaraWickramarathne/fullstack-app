@@ -28,7 +28,7 @@ spec:
           protocol: TCP
         env:
         - name: API_URL
-          value: "http://localhost/api"  # Will be accessed through ingress
+          value: "/api"  # Relative path - will be accessed through ingress
         resources:
           requests:
             cpu: 50m
