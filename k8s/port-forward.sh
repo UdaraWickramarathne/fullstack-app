@@ -129,8 +129,6 @@ case $MODE in
 esac
 
 echo ""
-
-echo ""
 echo "========================================"
 echo "Starting port forwards..."
 echo "========================================"
@@ -145,35 +143,35 @@ for service in "${forwards[@]}"; do
             # Try Traefik first (kube-system), then try ingress-nginx (velora-wear)
             if kubectl get svc traefik -n kube-system &> /dev/null; then
                 if start_port_forward "kube-system" "traefik" "8080" "80" "App (Traefik)"; then
-                    ((success_count++))
+                    success_count=$((success_count + 1))
                     echo -e "${BLUE}   → Access app at: http://velora.local:8080${NC}"
                 fi
             elif kubectl get svc ingress-nginx-controller -n $APP_NAMESPACE &> /dev/null; then
                 if start_port_forward "$APP_NAMESPACE" "ingress-nginx-controller" "8080" "80" "App (Nginx)"; then
-                    ((success_count++))
+                    success_count=$((success_count + 1))
                     echo -e "${BLUE}   → Access app at: http://velora.local:8080${NC}"
                 fi
             else
                 # Try backend service directly
                 if start_port_forward "$APP_NAMESPACE" "velora-backend-service" "5000" "5000" "Backend API"; then
-                    ((success_count++))
+                    success_count=$((success_count + 1))
                     echo -e "${BLUE}   → Backend API: http://localhost:5000${NC}"
                 fi
                 if start_port_forward "$APP_NAMESPACE" "velora-frontend-service" "3001" "80" "Frontend"; then
-                    ((success_count++))
+                    success_count=$((success_count + 1))
                     echo -e "${BLUE}   → Frontend: http://localhost:3001${NC}"
                 fi
             fi
             ;;
         grafana)
             if start_port_forward "$APP_NAMESPACE" "grafana" "3000" "3000" "Grafana"; then
-                ((success_count++))
+                success_count=$((success_count + 1))
                 echo -e "${BLUE}   → Username: admin, Password: admin123${NC}"
             fi
             ;;
         prometheus)
             if start_port_forward "$APP_NAMESPACE" "prometheus" "9090" "9090" "Prometheus"; then
-                ((success_count++))
+                success_count=$((success_count + 1))
             fi
             ;;
     esac
