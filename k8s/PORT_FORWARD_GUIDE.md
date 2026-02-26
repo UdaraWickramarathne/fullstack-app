@@ -1,24 +1,36 @@
 # Port Forward Guide
 
-Updated script that can forward ports for the app, Grafana, and Prometheus.
+Automated script that forwards ports for the app, Grafana, and Prometheus.
+
+**By default**, the script forwards everything (app + monitoring) for maximum convenience!
 
 ## Usage
+
+### Default (Everything)
+
+Simply run the script to forward all services:
 
 ```bash
 cd k8s
 ./port-forward.sh
 ```
 
-## Options
+This forwards:
+- App on port 8080
+- Grafana on port 3000
+- Prometheus on port 9090
 
-The script provides an interactive menu:
+### Specific Services
 
-1. **App only** - Forward port 8080 to your frontend/backend
-2. **Grafana only** - Forward port 3000 to Grafana dashboard
-3. **Prometheus only** - Forward port 9090 to Prometheus
-4. **All monitoring** - Forward both Grafana and Prometheus
-5. **Everything** - Forward app + Grafana + Prometheus
-6. **Custom selection** - Choose exactly what you want
+You can also forward specific services:
+
+```bash
+./port-forward.sh app        # App only
+./port-forward.sh grafana    # Grafana only
+./port-forward.sh prometheus # Prometheus only
+./port-forward.sh monitoring # Grafana + Prometheus
+./port-forward.sh all        # Everything (default)
+```
 
 ## Access URLs
 
@@ -40,31 +52,31 @@ After running the script:
 
 ## Features
 
-✅ Interactive menu-driven interface  
+✅ **Auto-forwards everything by default** - Just run and go!  
 ✅ Automatic port conflict detection and resolution  
-✅ Multiple services can run simultaneously  
+✅ Multiple services run simultaneously  
 ✅ Proper cleanup on Ctrl+C  
 ✅ Service availability checking  
 ✅ Process tracking with PID files  
+✅ Optional mode selection via command-line argument  
 
 ## Examples
 
-### Forward everything (recommended for development)
+### Forward everything (default)
 ```bash
 ./port-forward.sh
-# Choose option 5
+# Automatically forwards app + Grafana + Prometheus
 ```
 
 ### Forward only monitoring tools
 ```bash
-./port-forward.sh
-# Choose option 4
+./port-forward.sh monitoring
+# Forwards Grafana + Prometheus only
 ```
 
 ### Quick access to Grafana
 ```bash
-./port-forward.sh
-# Choose option 2
+./port-forward.sh grafana
 # Open http://localhost:3000
 ```
 

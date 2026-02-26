@@ -18,6 +18,14 @@ echo "========================================"
 echo "Velora Wear - Port Forward Setup"
 echo "========================================"
 echo ""
+echo "Usage: ./port-forward.sh [mode]"
+echo "Modes:"
+echo "  app        - Forward app only (port 8080)"
+echo "  grafana    - Forward Grafana only (port 3000)"
+echo "  prometheus - Forward Prometheus only (port 9090)"
+echo "  monitoring - Forward Grafana + Prometheus"
+echo "  all        - Forward everything (default)"
+echo ""
 
 # Check if kubectl is available
 if ! command -v kubectl &> /dev/null; then
@@ -89,60 +97,38 @@ start_port_forward() {
     fi
 }
 
-# Show menu
-echo "Select services to forward:"
-echo "  1) App only (Frontend + Backend) - port 8080"
-echo "  2) Grafana only - port 3000"
-echo "  3) Prometheus only - port 9090"
-echo "  4) All monitoring (Grafana + Prometheus)"
-echo "  5) Everything (App + Grafana + Prometheus)"
-echo "  6) Custom selection"
-echo ""
-read -p "Enter choice (1-6): " choice
+# Parse command line arguments or use default
+# Usage: ./port-forward.sh [app|grafana|prometheus|monitoring|all]
+# Default: all (everything)
+MODE=${1:-all}
 
 # Arrays to track what to forward
 declare -a forwards=()
 
-case $choice in
-    1)
+case $MODE in
+    app)
+        echo "Forwarding: App only"
         forwards+=("app")
         ;;
-    2)
+    grafana)
+        echo "Forwarding: Grafana only"
         forwards+=("grafana")
         ;;
-    3)
+    prometheus)
+        echo "Forwarding: Prometheus only"
         forwards+=("prometheus")
         ;;
-    4)
+    monitoring)
+        echo "Forwarding: All monitoring (Grafana + Prometheus)"
         forwards+=("grafana" "prometheus")
         ;;
-    5)
+    all|*)
+        echo "Forwarding: Everything (App + Grafana + Prometheus)"
         forwards+=("app" "grafana" "prometheus")
-        ;;
-    6)
-        echo ""
-        read -p "Forward app? (y/n): " -n 1 -r
-        echo ""
-        [[ $REPLY =~ ^[Yy]$ ]] && forwards+=("app")
-        
-        read -p "Forward Grafana? (y/n): " -n 1 -r
-        echo ""
-        [[ $REPLY =~ ^[Yy]$ ]] && forwards+=("grafana")
-        
-        read -p "Forward Prometheus? (y/n): " -n 1 -r
-        echo ""
-        [[ $REPLY =~ ^[Yy]$ ]] && forwards+=("prometheus")
-        ;;
-    *)
-        echo -e "${RED}Invalid choice${NC}"
-        exit 1
         ;;
 esac
 
-if [ ${#forwards[@]} -eq 0 ]; then
-    echo -e "${RED}No services selected${NC}"
-    exit 1
-fi
+echo ""
 
 echo ""
 echo "========================================"

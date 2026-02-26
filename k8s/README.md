@@ -125,19 +125,24 @@ Once all pods are running:
 
 ### Method 2: Port Forward (easiest for local development)
 
-Use the interactive port-forward script:
+Use the automated port-forward script:
 
 ```bash
 cd k8s
 ./port-forward.sh
 ```
 
-This provides a menu to forward:
-1. **App only** (Frontend + Backend on port 8080)
-2. **Grafana only** (port 3000)
-3. **Prometheus only** (port 9090)
-4. **All monitoring** (Grafana + Prometheus)
-5. **Everything** (App + Monitoring)
+**By default**, this forwards everything:
+- App on port 8080 (http://velora.local:8080)
+- Grafana on port 3000 (http://localhost:3000)
+- Prometheus on port 9090 (http://localhost:9090)
+
+**For specific services:**
+```bash
+./port-forward.sh app        # App only
+./port-forward.sh monitoring # Grafana + Prometheus only
+./port-forward.sh grafana    # Grafana only
+```
 
 See [PORT_FORWARD_GUIDE.md](PORT_FORWARD_GUIDE.md) for details.
 

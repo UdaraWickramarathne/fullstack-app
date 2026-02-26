@@ -62,20 +62,26 @@ kubectl get pods -n velora-wear
 
 ## 🔍 Access Dashboards
 
-### Option 1: Interactive Script (Easiest!)
+### Option 1: Automated Script (Easiest!)
 
 Use the convenient port-forward script:
 
 ```bash
 cd k8s
 ./port-forward.sh
-# Choose option 4 (All monitoring) or 5 (Everything)
+# Defaults to forwarding everything!
 ```
 
-This will automatically forward:
+This automatically forwards:
+- App on port 8080
 - Grafana on port 3000
 - Prometheus on port 9090
-- Optionally your app on port 8080
+
+For specific services only:
+```bash
+./port-forward.sh monitoring  # Just Grafana + Prometheus
+./port-forward.sh grafana     # Just Grafana
+```
 
 ### Option 2: Manual Port Forward
 

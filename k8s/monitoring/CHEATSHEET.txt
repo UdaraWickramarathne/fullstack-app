@@ -12,9 +12,13 @@
 ┌──────────────────────────────────────────────────────────────────┐
 │ 🌐 ACCESS                                                         │
 └──────────────────────────────────────────────────────────────────┘
-  Quick Access (Interactive Script):
+  Quick Access (Automated - forwards everything by default):
     cd k8s && ./port-forward.sh
-    (Choose option 4 or 5 for monitoring)
+
+  Specific services:
+    ./port-forward.sh grafana     # Grafana only
+    ./port-forward.sh prometheus  # Prometheus only
+    ./port-forward.sh monitoring  # Both
 
   Manual Port Forwarding:
     Grafana:

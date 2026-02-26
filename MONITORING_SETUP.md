@@ -103,7 +103,8 @@ kubectl apply -f backend.yaml
 
 # 4. Access Grafana (easy way!)
 ./port-forward.sh
-# Choose option 2 (Grafana only) or 5 (Everything)
+# Automatically forwards everything!
+# Or use: ./port-forward.sh grafana (for Grafana only)
 
 # Or manual way:
 kubectl port-forward -n velora-wear svc/grafana 3000:3000

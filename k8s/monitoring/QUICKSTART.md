@@ -44,7 +44,8 @@ kubectl apply -f backend.yaml
 ```bash
 cd k8s
 ./port-forward.sh
-# Choose option 2 for Grafana only, or option 5 for everything
+# Automatically forwards everything (app + monitoring)
+# Or use: ./port-forward.sh grafana (for Grafana only)
 ```
 
 **Manual way:**
