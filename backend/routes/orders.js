@@ -2,6 +2,7 @@ import express from 'express';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 import { protect, admin } from '../middleware/auth.js';
+import { ordersCreatedTotal } from '../middleware/metrics.js';
 
 const router = express.Router();
 
@@ -63,6 +64,7 @@ router.post('/', protect, async (req, res) => {
     });
 
     console.log(`[${new Date().toISOString()}] POST /api/orders - Order created successfully: ${order._id} (Total: $${totalPrice})`);
+    ordersCreatedTotal.inc();
     res.status(201).json(order);
   } catch (error) {
     console.error(`[${new Date().toISOString()}] POST /api/orders - Error:`, error.message);

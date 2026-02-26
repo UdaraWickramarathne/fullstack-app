@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import User from '../models/User.js';
 import { protect } from '../middleware/auth.js';
+import { usersRegisteredTotal } from '../middleware/metrics.js';
 
 const router = express.Router();
 
@@ -49,6 +50,7 @@ router.post('/register', [
 
     if (user) {
       console.log(`[${new Date().toISOString()}] POST /api/auth/register - User registered successfully: ${user.email} (ID: ${user._id})`);
+      usersRegisteredTotal.inc();
       res.status(201).json({
         _id: user._id,
         name: user.name,

@@ -1,6 +1,7 @@
 import express from 'express';
 import Product from '../models/Product.js';
 import { protect, admin } from '../middleware/auth.js';
+import { productsViewedTotal } from '../middleware/metrics.js';
 
 const router = express.Router();
 
@@ -73,6 +74,7 @@ router.get('/:id', async (req, res) => {
     }
 
     console.log(`[${new Date().toISOString()}] GET /api/products/${req.params.id} - Product retrieved: ${product.name}`);
+    productsViewedTotal.inc({ product_id: req.params.id });
     res.json(product);
   } catch (error) {
     console.error(`[${new Date().toISOString()}] GET /api/products/${req.params.id} - Error:`, error.message);
