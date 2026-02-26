@@ -118,9 +118,28 @@ velora-frontend-xxxxxxxxxx-xxxxx  1/1     Running   0          2m
 
 Once all pods are running:
 
+### Method 1: Through Ingress (if configured)
 - **Frontend**: http://velora.local
 - **Backend API**: http://velora.local/api
 - **API Documentation**: http://velora.local/api-docs
+
+### Method 2: Port Forward (easiest for local development)
+
+Use the interactive port-forward script:
+
+```bash
+cd k8s
+./port-forward.sh
+```
+
+This provides a menu to forward:
+1. **App only** (Frontend + Backend on port 8080)
+2. **Grafana only** (port 3000)
+3. **Prometheus only** (port 9090)
+4. **All monitoring** (Grafana + Prometheus)
+5. **Everything** (App + Monitoring)
+
+See [PORT_FORWARD_GUIDE.md](PORT_FORWARD_GUIDE.md) for details.
 
 ## Default Admin Credentials
 

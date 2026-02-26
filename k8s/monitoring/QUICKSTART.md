@@ -40,6 +40,14 @@ kubectl apply -f backend.yaml
 
 ## Step 4: Access Grafana
 
+**Easy way (recommended):**
+```bash
+cd k8s
+./port-forward.sh
+# Choose option 2 for Grafana only, or option 5 for everything
+```
+
+**Manual way:**
 ```bash
 # Port forward Grafana
 kubectl port-forward -n velora-wear svc/grafana 3000:3000

@@ -101,7 +101,11 @@ cd ../k8s/monitoring
 cd ..
 kubectl apply -f backend.yaml
 
-# 4. Access Grafana
+# 4. Access Grafana (easy way!)
+./port-forward.sh
+# Choose option 2 (Grafana only) or 5 (Everything)
+
+# Or manual way:
 kubectl port-forward -n velora-wear svc/grafana 3000:3000
 # Open: http://localhost:3000 (admin/admin123)
 ```
@@ -182,6 +186,7 @@ kubectl apply -f backend.yaml
 2. ✅ Verify metrics are being collected
 3. ✅ Explore pre-built dashboard
 4. ✅ Test log queries in Loki
+5. ✅ Use the interactive port-forward script: `cd k8s && ./port-forward.sh`
 
 ### Short-term
 - Configure alert notifications (Slack, email)

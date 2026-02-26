@@ -62,7 +62,22 @@ kubectl get pods -n velora-wear
 
 ## 🔍 Access Dashboards
 
-### Option 1: Port Forward (Recommended for local testing)
+### Option 1: Interactive Script (Easiest!)
+
+Use the convenient port-forward script:
+
+```bash
+cd k8s
+./port-forward.sh
+# Choose option 4 (All monitoring) or 5 (Everything)
+```
+
+This will automatically forward:
+- Grafana on port 3000
+- Prometheus on port 9090
+- Optionally your app on port 8080
+
+### Option 2: Manual Port Forward
 
 ```bash
 # Grafana (main dashboard)
@@ -80,7 +95,7 @@ kubectl port-forward -n velora-wear svc/prometheus 9090:9090
 - Username: `admin`
 - Password: `admin123` (change this in production!)
 
-### Option 2: Through Ingress
+### Option 3: Through Ingress
 
 If using ingress (ensure velora.local is in /etc/hosts):
 

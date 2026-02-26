@@ -12,17 +12,22 @@
 ┌──────────────────────────────────────────────────────────────────┐
 │ 🌐 ACCESS                                                         │
 └──────────────────────────────────────────────────────────────────┘
-  Grafana:
-    kubectl port-forward -n velora-wear svc/grafana 3000:3000
-    http://localhost:3000 (admin/admin123)
+  Quick Access (Interactive Script):
+    cd k8s && ./port-forward.sh
+    (Choose option 4 or 5 for monitoring)
 
-  Prometheus:
-    kubectl port-forward -n velora-wear svc/prometheus 9090:9090
-    http://localhost:9090
+  Manual Port Forwarding:
+    Grafana:
+      kubectl port-forward -n velora-wear svc/grafana 3000:3000
+      http://localhost:3000 (admin/admin123)
 
-  Backend Metrics:
-    kubectl port-forward -n velora-wear svc/velora-backend-service 5000:5000
-    curl http://localhost:5000/metrics
+    Prometheus:
+      kubectl port-forward -n velora-wear svc/prometheus 9090:9090
+      http://localhost:9090
+
+    Backend Metrics:
+      kubectl port-forward -n velora-wear svc/velora-backend-service 5000:5000
+      curl http://localhost:5000/metrics
 
 ┌──────────────────────────────────────────────────────────────────┐
 │ 📊 METRICS                                                        │
