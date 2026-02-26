@@ -249,6 +249,41 @@ kubectl port-forward -n velora-wear svc/velora-backend-service 5000:5000
 kubectl port-forward -n velora-wear svc/velora-frontend-service 8080:80
 ```
 
+## Step 7: Set Up Monitoring (Optional but Recommended)
+
+Deploy the complete monitoring stack with Grafana, Prometheus, Loki, and Promtail:
+
+```bash
+# Quick setup
+cd monitoring
+./deploy-monitoring.sh
+
+# Or manually
+kubectl apply -f monitoring/prometheus-config.yaml
+kubectl apply -f monitoring/prometheus-deployment.yaml
+kubectl apply -f monitoring/grafana-config.yaml
+kubectl apply -f monitoring/grafana-deployment.yaml
+kubectl apply -f monitoring/loki-deployment.yaml
+kubectl apply -f monitoring/promtail-daemonset.yaml
+kubectl apply -f monitoring/monitoring-ingress.yaml
+```
+
+**Access Grafana Dashboard:**
+```bash
+kubectl port-forward -n velora-wear svc/grafana 3000:3000
+# Open: http://localhost:3000
+# Username: admin
+# Password: admin123
+```
+
+**What you get:**
+- 📊 Real-time metrics and dashboards
+- 📝 Centralized log aggregation
+- 🔔 Alerting capabilities
+- 📈 Pre-built dashboard for backend APIs
+
+For detailed monitoring documentation, see [monitoring/README.md](monitoring/README.md) or [monitoring/QUICKSTART.md](monitoring/QUICKSTART.md)
+
 ## Production Considerations
 
 When deploying to production:
@@ -265,9 +300,10 @@ When deploying to production:
    - Set appropriate resource requests/limits
 
 3. **Monitoring**:
-   - Add Prometheus metrics
-   - Set up logging aggregation
-   - Configure alerts
+   - ✅ Monitoring stack available in `monitoring/` directory
+   - See [monitoring/README.md](monitoring/README.md) for full setup
+   - Configure alerts for critical metrics
+   - Set up log retention policies
 
 4. **Images**:
    - Push images to a container registry

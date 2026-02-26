@@ -12,6 +12,7 @@ import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
 import reviewRoutes from './routes/reviews.js';
 import adminRoutes from './routes/admin.js';
+import { metricsMiddleware, register } from './middleware/metrics.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -46,6 +47,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Metrics middleware (before request logging)
+app.use(metricsMiddleware);
+
 // Request logging middleware
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - IP: ${req.ip}`);
@@ -68,6 +72,17 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 console.log(`[${new Date().toISOString()}] All routes registered successfully`);
+
+// Metrics endpoint for Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'UP', timestamp: new Date().toISOString() });
+});
 
 // Basic route
 app.get('/', (req, res) => {
