@@ -45,10 +45,6 @@ spec:
               value: admin123  # Change this in production!
             - name: GF_INSTALL_PLUGINS
               value: ""
-            - name: GF_SERVER_ROOT_URL
-              value: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
-            - name: GF_SERVER_SERVE_FROM_SUB_PATH
-              value: "true"
           volumeMounts:
             - name: grafana-storage
               mountPath: /var/lib/grafana

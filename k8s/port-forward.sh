@@ -20,11 +20,17 @@ echo "========================================"
 echo ""
 echo "Usage: ./port-forward.sh [mode]"
 echo "Modes:"
-echo "  app        - Forward app only (port 8080)"
-echo "  grafana    - Forward Grafana only (port 3000)"
+echo "  app        - Forward app only (Backend: 3000, Frontend: 3002)"
+echo "  grafana    - Forward Grafana only (port 3001)"
 echo "  prometheus - Forward Prometheus only (port 9090)"
 echo "  monitoring - Forward Grafana + Prometheus"
 echo "  all        - Forward everything (default)"
+echo ""
+echo "Port Assignments:"
+echo "  Backend API:  http://localhost:3000"
+echo "  Grafana:      http://localhost:3001"
+echo "  Frontend App: http://localhost:3002"
+echo "  Prometheus:   http://localhost:9090"
 echo ""
 
 # Check if kubectl is available
@@ -140,31 +146,34 @@ success_count=0
 for service in "${forwards[@]}"; do
     case $service in
         app)
-            # Try Traefik first (kube-system), then try ingress-nginx (velora-wear)
+            # Forward backend service
+            if start_port_forward "$APP_NAMESPACE" "velora-backend-service" "3000" "5000" "Backend API"; then
+                success_count=$((success_count + 1))
+                echo -e "${BLUE}   → Backend API: http://localhost:3000${NC}"
+                echo -e "${BLUE}   → API Docs: http://localhost:3000/api-docs${NC}"
+            fi
+            
+            # Forward frontend service
+            if start_port_forward "$APP_NAMESPACE" "velora-frontend-service" "3002" "80" "Frontend Web App"; then
+                success_count=$((success_count + 1))
+                echo -e "${BLUE}   → Web App: http://localhost:3002${NC}"
+            fi
+            
+            # Optionally forward ingress (if available)
             if kubectl get svc traefik -n kube-system &> /dev/null; then
-                if start_port_forward "kube-system" "traefik" "8080" "80" "App (Traefik)"; then
+                if start_port_forward "kube-system" "traefik" "8080" "80" "Ingress (Traefik)"; then
                     success_count=$((success_count + 1))
-                    echo -e "${BLUE}   → Access app at: http://velora.local:8080${NC}"
+                    echo -e "${BLUE}   → Via Ingress: http://velora.local:8080 (requires /etc/hosts)${NC}"
                 fi
             elif kubectl get svc ingress-nginx-controller -n $APP_NAMESPACE &> /dev/null; then
-                if start_port_forward "$APP_NAMESPACE" "ingress-nginx-controller" "8080" "80" "App (Nginx)"; then
+                if start_port_forward "$APP_NAMESPACE" "ingress-nginx-controller" "8080" "80" "Ingress (Nginx)"; then
                     success_count=$((success_count + 1))
-                    echo -e "${BLUE}   → Access app at: http://velora.local:8080${NC}"
-                fi
-            else
-                # Try backend service directly
-                if start_port_forward "$APP_NAMESPACE" "velora-backend-service" "5000" "5000" "Backend API"; then
-                    success_count=$((success_count + 1))
-                    echo -e "${BLUE}   → Backend API: http://localhost:5000${NC}"
-                fi
-                if start_port_forward "$APP_NAMESPACE" "velora-frontend-service" "3001" "80" "Frontend"; then
-                    success_count=$((success_count + 1))
-                    echo -e "${BLUE}   → Frontend: http://localhost:3001${NC}"
+                    echo -e "${BLUE}   → Via Ingress: http://velora.local:8080 (requires /etc/hosts)${NC}"
                 fi
             fi
             ;;
         grafana)
-            if start_port_forward "$APP_NAMESPACE" "grafana" "3000" "3000" "Grafana"; then
+            if start_port_forward "$APP_NAMESPACE" "grafana" "3001" "3000" "Grafana"; then
                 success_count=$((success_count + 1))
                 echo -e "${BLUE}   → Username: admin, Password: admin123${NC}"
             fi
