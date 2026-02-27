@@ -27,7 +27,7 @@ echo "  monitoring - Forward Grafana + Prometheus"
 echo "  all        - Forward everything (default)"
 echo ""
 echo "Port Assignments:"
-echo "  Backend API:  http://localhost:3000"
+echo "  Backend API:  http://localhost:5000"
 echo "  Grafana:      http://localhost:3001"
 echo "  Frontend App: http://localhost:3002"
 echo "  Prometheus:   http://localhost:9090"
@@ -147,10 +147,10 @@ for service in "${forwards[@]}"; do
     case $service in
         app)
             # Forward backend service
-            if start_port_forward "$APP_NAMESPACE" "velora-backend-service" "3000" "5000" "Backend API"; then
+            if start_port_forward "$APP_NAMESPACE" "velora-backend-service" "5000" "5000" "Backend API"; then
                 success_count=$((success_count + 1))
-                echo -e "${BLUE}   → Backend API: http://localhost:3000${NC}"
-                echo -e "${BLUE}   → API Docs: http://localhost:3000/api-docs${NC}"
+                echo -e "${BLUE}   → Backend API: http://localhost:5000${NC}"
+                echo -e "${BLUE}   → API Docs: http://localhost:5000/api-docs${NC}"
             fi
             
             # Forward frontend service
