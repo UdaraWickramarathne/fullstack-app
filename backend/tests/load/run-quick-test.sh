@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 
 # Default values
 CONCURRENT_USERS=${CONCURRENT_USERS:-100}
-BASE_URL=${BASE_URL:-http://localhost:3000}
+BASE_URL=${BASE_URL:-http://localhost:5000}
 
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${GREEN}       Velora Wear API Stress Test${NC}"

@@ -12,7 +12,7 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-BASE_URL=${BASE_URL:-http://localhost:3000}
+BASE_URL=${BASE_URL:-http://localhost:5000}
 TEST_PROFILE=${1:-default}
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
