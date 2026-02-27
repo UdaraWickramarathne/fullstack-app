@@ -49,47 +49,48 @@ data:
       - url: http://loki:3100/loki/api/v1/push
 
     scrape_configs:
-      # Scrape logs from all pods in velora-wear namespace
-      - job_name: kubernetes-pods
-        kubernetes_sd_configs:
-          - role: pod
-            namespaces:
-              names:
-                - velora-wear
+      # Scrape backend logs directly from the pod log path on each node
+      - job_name: velora-backend
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              app: velora-backend
+              namespace: velora-wear
+              __path__: /var/log/pods/velora-wear_velora-backend-*/*/*.log
         pipeline_stages:
-          - cri: {}
           - json:
               expressions:
-                level: level
-                msg: msg
-                timestamp: timestamp
+                output: log
+                stream: stream
+          - output:
+              source: output
+          - regex:
+              expression: '^\[(?P<ts>[^\]]+)\] (?P<level>ERROR|WARN|INFO|DEBUG|error|warn|info|debug)?\s*(?P<message>.+)'
           - labels:
               level:
-              msg:
-          - timestamp:
-              source: timestamp
-              format: RFC3339Nano
-        relabel_configs:
-          - source_labels:
-              - __meta_kubernetes_pod_node_name
-            target_label: __host__
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
-          - source_labels:
-              - __meta_kubernetes_namespace
-            target_label: namespace
-          - source_labels:
-              - __meta_kubernetes_pod_name
-            target_label: pod
-          - source_labels:
-              - __meta_kubernetes_pod_container_name
-            target_label: container
-          - replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-              - __meta_kubernetes_pod_uid
-              - __meta_kubernetes_pod_container_name
-            target_label: __path__
+          - regex:
+              expression: '/var/log/pods/velora-wear_(?P<pod>[^_]+)_[^/]+/(?P<container>[^/]+)/.*'
+              source: filename
+          - labels:
+              pod:
+              container:
+
+      # Scrape all velora-wear pods for general log collection
+      - job_name: velora-wear-pods
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              namespace: velora-wear
+              __path__: /var/log/pods/velora-wear_*/*/*.log
+        pipeline_stages:
+          - json:
+              expressions:
+                output: log
+                stream: stream
+          - output:
+              source: output
 
       # Scrape system logs
       - job_name: system
